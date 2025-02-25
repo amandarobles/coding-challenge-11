@@ -65,6 +65,14 @@ class Library {
             borrower.borrowBook(book.title); //updating borrowers list
         }
     }
+    returnBook(borrowerId, isbn) {
+        const book = this.books.find(b => b.isbn === isbn); // Tasl 5- adding method in library class
+        const borrower = this.borrowers.find(b => b.borrowerId === borrowerId);
+        if(book && borrower) {
+            book.updateCopies(1); //increasing book's available copies
+            borrower.returnBook(book.title); //removing book from borrower list
+        }
+    }
 }
 //test data
 const library = new Library ();
@@ -76,3 +84,9 @@ library.listBooks();
 library.lendBook(201, 123456);
 console.log(book1.getDetails()); //Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 3"
 console.log(borrower1.borrowedBooks); //Expected output: ["The Great Gatsby"]
+
+
+// task 5: Implementing Book Returns
+library.returnBook(201, 123456); //test data
+console.log(book1.getDetails()); //Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
+console.log(borrower1.borrowedBooks); //Expected output: []
