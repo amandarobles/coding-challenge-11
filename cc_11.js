@@ -7,7 +7,7 @@ class Book {
         this.copies = copies; //creating class with properties
     }
     getDetails() {
-        return `Title: ${$this.title}, Author: ${this.author}, ISBN: ${this.isbn}, Copies: ${this.copies}`; //returning formatted string of book details
+        return `Title: ${this.title}, Author: ${this.author}, ISBN: ${this.isbn}, Copies: ${this.copies}`; //returning formatted string of book details
     }
     updateCopies(quantity) {
         this.copies += quantity; //modifying available copies when book is borrowed/returned
