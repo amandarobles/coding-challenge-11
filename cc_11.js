@@ -32,8 +32,10 @@ class Borrower {
     }
     returnBook(book) {
         const index = this.borrowedBooks.indexOf(book);
-        if (index > -1) {
+        if (index !== -1) {
             this.borrowedBooks.splice(index, 1); //removing book
+        } else {
+            console.log(`The book "${book.title}" was not checked out by this borrower.`)
         }
     }
 }
@@ -58,22 +60,35 @@ class Library {
         this.books.forEach(book => {console.log(book.getDetails())}); //logging books' details
     }
     lendBook(borrowerId, isbn) {
-        const book = this.books.find(b => b.isbn === isbn); // Task 4- adding method in library class
-        const borrower = this.borrowers.find(b => b.borrowerId === borrowerId); //checking if book exists and has available copies
-        if (book && borrower && book.copies > 0) {
+        const book = this.books.find((bk) => bk.isbn === isbn); // Task 4- adding method in library class
+        const borrower = this.borrowers.find((br) => br.borrowerId === borrowerId); //checking if book exists and has available copies
+        if (!book) {console.log(`No book found with ISBN: ${isbn}!`); //alerting the user
+    return;
+}
+        if (!borrower) {console.log(`No borrower found with borrowerId: ${borrowerId}!`);
+    return;
+}
+        if (book.copies > 0) {
             book.updateCopies(-1); //reducing book copy by 1
-            borrower.borrowBook(book.title); //updating borrowers list
-        }
-    }
+            borrower.borrowBook(book); //updating borrowers list
+        } else {console.log(`No copies of ${book.title} in stock!`)}
+    };
     returnBook(borrowerId, isbn) {
-        const book = this.books.find(b => b.isbn === isbn); // Tasl 5- adding method in library class
-        const borrower = this.borrowers.find(b => b.borrowerId === borrowerId);
-        if(book && borrower) {
+        const book = this.books.find((bk) => bk.isbn === isbn); // Tasl 5- adding method in library class
+        const borrower = this.borrowers.find((br) => br.borrowerId === borrowerId);
+        if(!book) {
+            console.log(`No book found wiyh ISBN: ${isbn}!`); //alerting the user
+            return;
+        }if (!borrower) {console.log(`No borrower found with borrowerId: ${borrowerId}!`);
+            return;
+        } else {
             book.updateCopies(1); //increasing book's available copies
-            borrower.returnBook(book.title); //removing book from borrower list
-        }
+            borrower.returnBook(book); //removing book from borrower list
+            console.log("Book returned successfully.");
     }
 }
+    };
+
 //test data
 const library = new Library ();
 library.addBook(book1);
